@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introducing BoodleBox at HWS</title>
+
+  <style>
+    :root {
+      --hws-purple: #510C76;
+      --hws-green: #006937;
+      --hws-orange: #F26724;
+      --dark: #1f2933;
+      --text: #334155;
+      --muted: #64748b;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+      --soft-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(81, 12, 118, 0.12), transparent 34%),
+        radial-gradient(circle at top right, rgba(242, 103, 36, 0.10), transparent 28%),
+        var(--light);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      overflow: hidden;
+    }
+
+    /* Navigation */
+
+    .nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.82);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: var(--hws-purple);
+      letter-spacing: -0.03em;
+      font-size: 1.1rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--hws-purple), var(--hws-green));
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(81, 12, 118, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--hws-purple);
+    }
+
+    .nav-cta {
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: var(--hws-purple);
+      color: white !important;
+      font-weight: 700;
+    }
+
+    /* Hero */
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 130px 24px 80px;
+      position: relative;
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(81, 12, 118, 0.08);
+      color: var(--hws-purple);
+      border: 1px solid rgba(81, 12, 118, 0.14);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--hws-orange);
+      box-shadow: 0 0 0 5px rgba(242, 103, 36, 0.15);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6.4rem);
+      line-height: 0.95;
+      margin: 0;
+      letter-spacing: -0.08em;
+      color: var(--dark);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--hws-purple), var(--hws-green));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      margin: 28px 0 0;
+      font-size: clamp(1.18rem, 2vw, 1.45rem);
+      color: var(--text);
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--hws-purple);
+      color: white;
+      box-shadow: 0 16px 30px rgba(81, 12, 118, 0.28);
+    }
+
+    .button-primary:hover {
+      background: #3f095c;
+    }
+
+    .button-secondary {
+      background: white;
+      color: var(--hws-purple);
+      border: 1px solid var(--border);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .visual-card {
+      position: relative;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.76)),
+        radial-gradient(circle at top, rgba(81, 12, 118, 0.10), transparent 40%);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: var(--shadow);
+      border-radius: 34px;
+      padding: 32px;
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, rgba(81,12,118,0.20), rgba(0,105,55,0.14), rgba(242,103,36,0.18));
+      z-index: -1;
+      border-radius: 36px;
+    }
+
+    .head {
+      width: 260px;
+      height: 320px;
+      margin: 0 auto;
+      position: relative;
+      background: linear-gradient(160deg, #1f1230, #34104d);
+      border-radius: 48% 48% 44% 44%;
+      clip-path: polygon(18% 4%, 68% 0%, 91% 23%, 92% 54%, 78% 69%, 79% 94%, 46% 96%, 33% 77%, 17% 70%, 8% 46%, 10% 20%);
+      box-shadow: inset -20px -20px 40px rgba(0,0,0,0.18);
+    }
+
+    .brain {
+      position: absolute;
+      top: 72px;
+      left: 62px;
+      right: 48px;
+      height: 130px;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 20% 30%, #ffffff 0 3px, transparent 4px),
+        radial-gradient(circle at 50% 20%, #ffffff 0 3px, transparent 4px),
+        radial-gradient(circle at 78% 38%, #ffffff 0 3px, transparent 4px),
+        radial-gradient(circle at 34% 70%, #ffffff 0 3px, transparent 4px),
+        radial-gradient(circle at 70% 76%, #ffffff 0 3px, transparent 4px),
+        linear-gradient(135deg, #9ee8ff, #a78bfa, #f6a26b);
+      filter: drop-shadow(0 0 22px rgba(167, 139, 250, 0.55));
+      opacity: 0.92;
+    }
+
+    .brain::before,
+    .brain::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.55);
+      height: 2px;
+      transform-origin: left center;
+    }
+
+    .brain::before {
+      width: 90px;
+      top: 42px;
+      left: 28px;
+      transform: rotate(18deg);
+    }
+
+    .brain::after {
+      width: 100px;
+      top: 82px;
+      left: 38px;
+      transform: rotate(-12deg);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .mini-stat {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .mini-stat strong {
+      display: block;
+      color: var(--hws-purple);
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .mini-stat span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    /* Sections */
+
+    section {
+      padding: 90px 24px;
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      max-width: 790px;
+      margin-bottom: 42px;
+    }
+
+    .kicker {
+      color: var(--hws-orange);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--dark);
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .section-heading p {
+      font-size: 1.12rem;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--hws-purple);
+    }
+
+    .card.green::before {
+      background: var(--hws-green);
+    }
+
+    .card.orange::before {
+      background: var(--hws-orange);
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      font-size: 1.5rem;
+      background: rgba(81,12,118,0.08);
+      margin-bottom: 18px;
+    }
+
+    .card.green .icon {
+      background: rgba(0,105,55,0.08);
+    }
+
+    .card.orange .icon {
+      background: rgba(242,103,36,0.10);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--dark);
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* Why BoodleBox */
+
+    .why {
+      background: var(--dark);
+      color: white;
+      position: relative;
+    }
+
+    .why::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(81, 12, 118, 0.65), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(0, 105, 55, 0.45), transparent 36%);
+      pointer-events: none;
+    }
+
+    .why .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .why h2,
+    .why .section-heading p {
+      color: white;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .big-callout {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .big-callout h3 {
+      margin: 0 0 14px;
+      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .big-callout p {
+      color: rgba(255,255,255,0.82);
+      margin: 0;
+      font-size: 1.06rem;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .feature strong {
+      display: block;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .feature span {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.94rem;
+    }
+
+    /* AI Literacy */
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+      counter-reset: step;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: start;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .number {
+      counter-increment: step;
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: var(--hws-purple);
+      color: white;
+      font-weight: 900;
+    }
+
+    .number::before {
+      content: counter(step);
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 6px;
+      color: var(--dark);
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* Use Cases */
+
+    .use-case-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .use-case {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--soft-shadow);
+      min-height: 210px;
+    }
+
+    .use-case .label {
+      display: inline-block;
+      color: var(--hws-purple);
+      background: rgba(81,12,118,0.08);
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      margin-bottom: 14px;
+    }
+
+    .use-case h3 {
+      margin: 0 0 10px;
+      color: var(--dark);
+      font-size: 1.13rem;
+    }
+
+    .use-case p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* CTA */
+
+    .cta {
+      padding: 100px 24px;
+    }
+
+    .cta-box {
+      max-width: 1060px;
+      margin: 0 auto;
+      background:
+        linear-gradient(135deg, rgba(81,12,118,0.97), rgba(0,105,55,0.95)),
+        var(--hws-purple);
+      border-radius: 34px;
+      color: white;
+      padding: 58px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(242,103,36,0.32);
+      right: -80px;
+      top: -90px;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      color: rgba(255,255,255,0.84);
+      font-size: 1.18rem;
+      margin: 18px 0 28px;
+    }
+
+    .cta .button {
+      background: white;
+      color: var(--hws-purple);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.20);
+    }
+
+    footer {
+      padding: 34px 24px 50px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Reveal Animation */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 980px) {
+      .hero-inner,
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-visual {
+        max-width: 560px;
+      }
+
+      .cards,
+      .use-case-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 70px 18px;
+      }
+
+      .hero {
+        padding: 110px 18px 60px;
+      }
+
+      .cards,
+      .feature-list,
+      .use-case-grid,
+      .stat-row {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card {
+        padding: 24px;
+      }
+
+      .head {
+        width: 220px;
+        height: 280px;
+      }
+
+      .cta-box {
+        padding: 36px 26px;
+        border-radius: 26px;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <nav class="nav" aria-label="Main navigation">
+      <div class="nav-inner">
+        <div class="brand">
+          <div class="brand-mark">B</div>
+          <span>BoodleBox at HWS</span>
+        </div>
+
+        <div class="nav-links">
+          <a href="#why">Why BoodleBox?</a>
+          <a href="#literacy">AI Literacy</a>
+          <a href="#teaching">Teaching Uses</a>
+          <a class="nav-cta" href="#start">Get Started</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Advancing AI Literacy at HWS
+          </div>
+
+          <h1>
+            Meet your secure
+            <span class="gradient-text">AI thinking partner.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            BoodleBox gives the HWS community equitable access to leading generative AI tools
+            in a protected, collaborative environment designed for teaching, learning, research,
+            and critical thinking.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#why" class="button button-primary">Explore Why It Matters</a>
+            <a href="#start" class="button button-secondary">Start Using BoodleBox</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="visual-card" aria-label="Illustration of AI-supported thinking">
+            <div class="head">
+              <div class="brain"></div>
+            </div>
+
+            <div class="stat-row">
+              <div class="mini-stat">
+                <strong>Multi</strong>
+                <span>Model Access</span>
+              </div>
+              <div class="mini-stat">
+                <strong>Private</strong>
+                <span>Protected Data</span>
+              </div>
+              <div class="mini-stat">
+                <strong>Shared</strong>
+                <span>AI Literacy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="concerns">
+      <div class="section-inner">
+        <div class="section-heading reveal">
+          <div class="kicker">The Conversation</div>
+          <h2>Generative AI is already changing how we teach and learn.</h2>
+          <p>
+            Our goal is not simply to give people another tool. It is to help students, faculty,
+            and staff understand how these tools work, when to use them, when not to use them,
+            and how to think critically about their outputs.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="icon">🧠</div>
+            <h3>Critical Thinking</h3>
+            <p>
+              How do we help students use AI without outsourcing their own reasoning,
+              judgment, creativity, and voice?
+            </p>
+          </article>
+
+          <article class="card green reveal">
+            <div class="icon">💬</div>
+            <h3>Transparent Use</h3>
+            <p>
+              Students are already using AI. BoodleBox gives us a way to bring that use
+              into the open and discuss it productively.
+            </p>
+          </article>
+
+          <article class="card orange reveal">
+            <div class="icon">📊</div>
+            <h3>Assessment Design</h3>
+            <p>
+              AI invites us to revisit assignments, expectations, process work, reflection,
+              and what meaningful learning evidence looks like.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="why">
+      <div class="section-inner">
+        <div class="section-heading reveal">
+          <div class="kicker">Why BoodleBox?</div>
+          <h2>A safer, more equitable way to build AI fluency.</h2>
+          <p>
+            BoodleBox gives HWS a shared environment for experimenting with AI while addressing
+            major concerns around privacy, access, pedagogy, and responsible use.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="big-callout reveal">
+            <h3>Not just a chatbot. A learning environment.</h3>
+            <p>
+              BoodleBox is a space where users can compare AI models, share conversations,
+              build assignments, practice prompting, and learn how to evaluate AI-generated work.
+            </p>
+          </div>
+
+          <div class="feature-list">
+            <div class="feature reveal">
+              <strong>Multi-model access</strong>
+              <span>Compare responses across leading AI models rather than relying on a single answer.</span>
+            </div>
+
+            <div class="feature reveal">
+              <strong>Equitable student access</strong>
+              <span>Students can explore AI without needing personal paid subscriptions.</span>
+            </div>
+
+            <div class="feature reveal">
+              <strong>FERPA/HIPAA aligned</strong>
+              <span>Designed to support institutional privacy and compliance expectations.</span>
+            </div>
+
+            <div class="feature reveal">
+              <strong>Does not train on your data</strong>
+              <span>Prompts and uploaded materials are not used to train external models.</span>
+            </div>
+
+            <div class="feature reveal">
+              <strong>Anonymized prompts</strong>
+              <span>Prompts are anonymized to better protect user identity and institutional data.</span>
+            </div>
+
+            <div class="feature reveal">
+              <strong>Collaborative learning</strong>
+              <span>Share conversations and model effective AI use across courses and teams.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="literacy">
+      <div class="section-inner">
+        <div class="section-heading reveal">
+          <div class="kicker">AI Literacy Forward</div>
+          <h2>What we want our community to practice.</h2>
+          <p>
+            AI literacy is not about memorizing one tool. It is about developing habits of inquiry,
+            skepticism, creativity, and ethical judgment.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="number"></div>
+            <div>
+              <h3>Understand how large language models work</h3>
+              <p>
+                Learn what these systems are good at, where they fail, and why they can produce
+                confident but inaccurate responses.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="number"></div>
+            <div>
+              <h3>Practice better prompting</h3>
+              <p>
+                Treat prompting as a form of communication: provide context, define goals,
+                ask for reasoning, and revise based on results.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="number"></div>
+            <div>
+              <h3>Evaluate output critically</h3>
+              <p>
+                Check claims, compare models, ask for sources when appropriate, and use human
+                expertise to judge the quality of AI-generated work.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="number"></div>
+            <div>
+              <h3>Use AI transparently and ethically</h3>
+              <p>
+                Discuss when AI use is appropriate, how it should be acknowledged, and how it
+                connects to course or workplace expectations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <div class="section-inner">
+        <div class="section-heading reveal">
+          <div class="kicker">Teaching, Learning, and Workflows</div>
+          <h2>What can you actually do with BoodleBox?</h2>
+          <p>
+            BoodleBox can support faculty, staff, and students across everyday tasks while keeping
+            the focus on learning, reflection, and responsible use.
+          </p>
+        </div>
+
+        <div class="use-case-grid">
+          <article class="use-case reveal">
+            <span class="label">Faculty</span>
+            <h3>Design assignments</h3>
+            <p>Create AI-aware assignments, rubrics, discussion prompts, and reflective activities.</p>
+          </article>
+
+          <article class="use-case reveal">
+            <span class="label">Students</span>
+            <h3>Study with support</h3>
+            <p>Ask for explanations, practice questions, feedback, outlines, or different ways of understanding a concept.</p>
+          </article>
+
+          <article class="use-case reveal">
+            <span class="label">Staff</span>
+            <h3>Improve workflows</h3>
+            <p>Draft communications, summarize information, brainstorm plans, and organize complex projects.</p>
+          </article>
+
+          <article class="use-case reveal">
+            <span class="label">Everyone</span>
+            <h3>Compare perspectives</h3>
+            <p>Use multiple models to examine different answers, assumptions, tones, and levels of detail.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="responsible">
+      <div class="section-inner">
+        <div class="section-heading reveal">
+          <div class="kicker">Responsible Adoption</div>
+          <h2>We are not ignoring the hard questions.</h2>
+          <p>
+            BoodleBox helps HWS engage directly with concerns that matter: overuse, academic integrity,
+            privacy, cost, environmental impact, and the changing nature of assessment.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="icon">🔒</div>
+            <h3>Privacy of Data</h3>
+            <p>
+              Use a platform designed for institutional contexts rather than asking users to rely
+              on public consumer tools.
+            </p>
+          </article>
+
+          <article class="card green reveal">
+            <div class="icon">🌱</div>
+            <h3>Environmental Awareness</h3>
+            <p>
+              Build habits that encourage intentional, purposeful use of AI rather than casual,
+              high-volume experimentation without reflection.
+            </p>
+          </article>
+
+          <article class="card orange reveal">
+            <div class="icon">⚖️</div>
+            <h3>Cost and Access</h3>
+            <p>
+              Support more equitable access so AI literacy does not depend on who can afford
+              individual subscriptions.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="cta">
+      <div class="cta-box reveal">
+        <div class="cta-content">
+          <div class="kicker">Ready to Begin?</div>
+          <h2>Start experimenting, questioning, and learning with BoodleBox.</h2>
+          <p>
+            Log in with your HWS credentials, try a prompt, compare models, and begin thinking
+            about how AI can support your teaching, learning, research, or work.
+          </p>
+
+          <!-- Replace the # below with your actual BoodleBox/HWS launch link -->
+          <a href="#" class="button">Launch BoodleBox</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Designed for Hobart and William Smith Colleges · BoodleBox Introduction · 2025
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
